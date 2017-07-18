@@ -1,32 +1,44 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import {GeolocationService} from './services/geolocation.service';
+import {WeatherService} from './services/weather.service';
+import {Observable} from 'rxjs/Observable';
+import {HttpModule} from '@angular/http';
 
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let component: AppComponent;
+  let weatherService: WeatherService;
+  let geolocationService: GeolocationService;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      imports: [ HttpModule ],
+      providers: [
+        GeolocationService,
+        WeatherService
+      ]
     }).compileComponents();
   }));
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.debugElement.componentInstance;
+    weatherService = TestBed.get(WeatherService);
+    geolocationService = TestBed.get(GeolocationService);
+  });
 
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
-  }));
+  it('should display the current weather', ((done: any) => {
+    let weatherSpy = spyOn(weatherService, 'getWeatherByCoords').and.returnValue(Observable.of({ main: { temp: 92 }}));
+    spyOn(geolocationService, 'getLocation').and.returnValue({ coordinates: { latitude: 42, longitude: -71 }});
 
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+    // wait for the weather call to complete
+    weatherSpy.calls.mostRecent().returnValue.subscribe(result => {
+
+    });
   }));
 });

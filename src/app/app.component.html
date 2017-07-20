@@ -3,23 +3,25 @@
     <ng-container *ngIf="weather; else noWeather">
       <h1>Local weather for {{weather.name}}</h1>
       <div class="temperature">
-        <h1>{{weather.main.temp}}&deg; F</h1>
-        <span class="badge badge-info">{{weather.main.temp_min}}&deg; F</span>
-        <span class="badge badge-danger">{{weather.main.temp_max}}&deg; F</span>
+        <h2>{{weather.main.temp}}&deg; F</h2>
+        <span class="badge badge-info low-temp">{{weather.main.temp_min}}&deg; F</span>
+        <span class="badge badge-danger high-temp">{{weather.main.temp_max}}&deg; F</span>
       </div>
       <span class="badge badge-primary">
-        {{weather.weather[0].description}}
-        <i class="fa" [class]="getWeatherClass()"></i>
+        <span class="description">{{weather.weather[0].description}}</span>
+        <i [class]="getWeatherClass() + ' icon'"></i>
       </span>
       <div class="input-group">
-        <input class="form-control" type="text" placeholder="Enter a city name" [(ngModel)]="cityName" (keyup.enter)="getWeatherForCity()" />
+        <input class="form-control cityName" type="text" placeholder="Enter a city name" [(ngModel)]="cityName" (keyup.enter)="getWeatherForCity()" />
         <span class="input-group-btn">
-          <button class="btn btn-primary" (click)="getWeatherForCity()">Submit</button>
+          <button class="btn btn-primary submit" (click)="getWeatherForCity()">Submit</button>
         </span>
       </div>
     </ng-container>
     <ng-template #noWeather>
-      Loading...<span class="fa fa-spinner fa-spin"></span>
+      <div class="loading">
+        Loading...<span class="fa fa-spinner fa-spin"></span>
+      </div>
     </ng-template>
   </div>
 </div>

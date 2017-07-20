@@ -35,7 +35,7 @@ describe('WeatherService', () => {
       service.getWeather('test city').subscribe(response => {
         expect(response.main.temp).toBe(92);
         expect(lastConnection.request.url).toBe('http://api.openweathermap.org/data/2.5/' +
-          'weather?APPID=60084b8e9ea1ced01baec89638db7f58&q=test city');
+          'weather?APPID=60084b8e9ea1ced01baec89638db7f58&q=test city&units=imperial');
         done();
       });
     });

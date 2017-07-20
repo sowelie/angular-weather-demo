@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-  public weather: any;
+  public weather: any = null;
   public cityName: string;
 
   constructor(private locationService: GeolocationService, private weatherService: WeatherService) { }
